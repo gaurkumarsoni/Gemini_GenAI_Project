@@ -62,7 +62,7 @@ if selected == "ChatBot":
                 "role": msg["role"],
                 "parts": [{"text": msg["content"]}]
             })
-
+        try:
             # Get Gemini response
             response = get_gemini_response(contents)
 
@@ -74,7 +74,9 @@ if selected == "ChatBot":
 
             st.chat_message("model").markdown(response)
 
-
+        except Exception as e:
+            st.error("⚠️ Gemini is currently overloaded. Please try again in a few seconds.")
+            st.caption(str(e))
 # ================= IMAGE CAPTIONING =================
 
 if selected == "Image Captioning":
@@ -88,15 +90,21 @@ if selected == "Image Captioning":
 
     if uploaded_image is not None:
 
+
         if st.button("Generate Caption"):
             col1, col2 = st.columns(2)
             with col1:
                 st.image(uploaded_image, caption="Uploaded Image", width="stretch")
             with col2:
                 with st.spinner("Gemini is analyzing the image..."):
+                    try:
                         image_bytes = uploaded_image.getvalue()
                         caption = get_image_caption(image_bytes)
                         st.success(caption)
+
+                    except Exception as e:
+                        st.error("⚠️ Gemini is currently overloaded. Please try again in a few seconds.")
+                        st.caption(str(e))
     else:
         st.info("👆 Upload an image to get started.")
 
