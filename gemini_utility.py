@@ -42,4 +42,16 @@ def get_image_caption(image):
 
     return response.text
 
+# function for image captioning
+def gemini_embed_text(input):
+    response = client.models.embed_content(
+        model="gemini-embedding-001",
+        contents=input
+    )
+
+    return response.embeddings[0].values
+
+
+
+
 

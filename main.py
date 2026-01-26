@@ -1,6 +1,6 @@
 import streamlit as st
 from streamlit_option_menu import option_menu
-from gemini_utility import (get_gemini_response , get_image_caption)
+from gemini_utility import (get_gemini_response , get_image_caption, gemini_embed_text)
 
 # Page configuration
 st.set_page_config(
@@ -77,6 +77,7 @@ if selected == "ChatBot":
         except Exception as e:
             st.error("⚠️ Gemini is currently overloaded. Please try again in a few seconds.")
             st.caption(str(e))
+
 # ================= IMAGE CAPTIONING =================
 
 if selected == "Image Captioning":
@@ -107,4 +108,16 @@ if selected == "Image Captioning":
                         st.caption(str(e))
     else:
         st.info("👆 Upload an image to get started.")
+
+
+# ================= IMAGE CAPTIONING =================
+
+if selected == "Embed Text":
+
+    st.title("🔡 Embed Text")
+
+    text_input = st.text_area(label="", placeholder="Write something to embed")
+    if st.button("embed_text"):
+        embedded_result = gemini_embed_text(text_input)
+        st.markdown(embedded_result)
 
