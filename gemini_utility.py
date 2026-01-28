@@ -11,7 +11,7 @@ from google.genai import types
 load_dotenv()
 
 # Get API key (Streamlit secrets first, fallback to .env)
-api_key = st.secrets.get("GEMINI_API_KEY") or os.getenv("GEMINI_API_KEY")
+api_key =  os.getenv("GEMINI_API_KEY") or st.secrets.get("GEMINI_API_KEY")
 
 if not api_key:
     st.error("GEMINI_API_KEY not found. Please set it in .env or Streamlit secrets.")

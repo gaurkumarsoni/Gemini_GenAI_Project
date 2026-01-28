@@ -1,8 +1,8 @@
 Bugs_and_Fixes.docx
+.env
 .venv
 .idea
 __pycache__
 old_main.txt
 old_utility.txt
 config.json
-.env
