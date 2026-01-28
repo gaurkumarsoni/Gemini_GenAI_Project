@@ -1,6 +1,6 @@
 import streamlit as st
 from streamlit_option_menu import option_menu
-from gemini_utility import (get_gemini_response , get_image_caption, gemini_embed_text)
+from gemini_utility import (get_gemini_response, get_image_caption, gemini_embed_text, gemini_qna_response)
 
 # Page configuration
 st.set_page_config(
@@ -110,7 +110,7 @@ if selected == "Image Captioning":
         st.info("👆 Upload an image to get started.")
 
 
-# ================= IMAGE CAPTIONING =================
+# ================= TEXT EMBEDDING =================
 
 if selected == "Embed Text":
 
@@ -120,4 +120,14 @@ if selected == "Embed Text":
     if st.button("embed_text"):
         embedded_result = gemini_embed_text(text_input)
         st.markdown(embedded_result)
+
+# ================= ASK ME ANYTHING (QNA) =================
+
+if selected == "Ask me anything":
+    st.title("❓ Ask me a question.")
+    text_input = st.text_area(label="", placeholder="Ask me anything...")
+    if st.button("Get and answer"):
+        response = gemini_qna_response(text_input)
+        st.markdown(response)
+
 

@@ -5,3 +5,4 @@ __pycache__
 old_main.txt
 old_utility.txt
 config.json
+.env

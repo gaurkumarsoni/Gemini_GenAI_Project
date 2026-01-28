@@ -1,22 +1,24 @@
 import os
 
-import json
+import streamlit as st
 
+from dotenv import load_dotenv
 from google import genai
 from google.genai import types
 
 
-# Load config
-working_dir = os.path.dirname(os.path.abspath(__file__))
+# Load .env for local development
+load_dotenv()
 
-with open(os.path.join(working_dir, "config.json"), "r") as f:
-    config_data = json.load(f)
+# Get API key (Streamlit secrets first, fallback to .env)
+api_key = st.secrets.get("GEMINI_API_KEY") or os.getenv("GEMINI_API_KEY")
 
-# API key comes automatically from environment OR config
-os.environ["GEMINI_API_KEY"] = config_data["GEMINI_API_KEY"]
+if not api_key:
+    st.error("GEMINI_API_KEY not found. Please set it in .env or Streamlit secrets.")
+    st.stop()
 
-# Create client
-client = genai.Client()
+# Create Gemini client
+client = genai.Client(api_key=api_key)
 
 
 # function to load gemeni_model for chatbot response
@@ -51,6 +53,13 @@ def gemini_embed_text(input):
 
     return response.embeddings[0].values
 
+#function for QnA model
+def gemini_qna_response(input_text):
+    response = client.models.generate_content(
+        model="gemini-2.5-flash-lite",
+        contents=input_text
+    )
+    return response.text
 
 
 
